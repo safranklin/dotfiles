@@ -1,0 +1,2 @@
+config-file = ~/.config/my/ghostty/config
+keybind = shift+enter=text:\n
