@@ -40,6 +40,9 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # Enable menu selection for completions
 zstyle ':completion:*' menu select
 
+# Bind Shift+Tab (reverse menu selection)
+bindkey '^[[Z' reverse-menu-complete
+
 # Cache completions for better performance
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "$HOME/.zcompcache"
@@ -86,4 +89,3 @@ fi
 [[ -f ~/.config/my/management.zsh ]] && source ~/.config/my/management.zsh	# Dotfile management modifications
 
 # Keep newline at end of file
-

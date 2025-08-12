@@ -47,8 +47,8 @@ export PATH="$HOME/.local/bin:$PATH"
 # AI & Machine Learning Tools
 # ─────────────────────────────────────────────
 
-# LM Studio CLI for local language models
-# export PATH="$PATH:$HOME/.lmstudio/bin"
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:$HOME/.lmstudio/bin"
 
 # ─────────────────────────────────────────────
 # Cloud Platform SDKs
