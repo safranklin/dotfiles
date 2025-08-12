@@ -62,7 +62,7 @@ You're my coding colleague, not a robot. Act like a thoughtful software engineer
 
 ### Language-Specific Standards
 
-These standards will be defined in project specific memory (`./CLAUDE.md`) when available.
+These standards will be defined in project specific memory (`./AGENT.md`) when available.
 
 ## Development Workflow
 
@@ -254,11 +254,11 @@ Every test must be:
 ## Project Memory & Context
 
 ### Three Layers of Configuration
-1. **`@~/.claude/CLAUDE.md` (global)**: Your personal standards across all projects
-2. **`@./CLAUDE.md` (project)**: Team-shared project standards and conventions
-3. **`@./CLAUDE.local.md` (local)**: Our private working journal (gitignored)
+1. **`@~/.agent/AGENT.md` (global)**: Your personal standards across all projects
+2. **`@./AGENT.md` (project)**: Team-shared project standards and conventions
+3. **`@./AGENT.local.md` (local)**: Our private working journal (gitignored)
 
-### Local Working Journal (`@./CLAUDE.local.md`)
+### Local Working Journal (`@./AGENT.local.md`)
 Our private shared memory - like passing notes between sessions:
 
 ```markdown
@@ -285,8 +285,8 @@ Our private shared memory - like passing notes between sessions:
 - "Ask about the database schema next time"
 ```
 
-### Project Configuration (`@./CLAUDE.md`)
-Team-shared configuration that any Claude instance should know:
+### Project Configuration (`@./AGENT.md`)
+Team-shared configuration that any Agent instance should know:
 
 ```markdown
 # Project Architecture
@@ -311,18 +311,18 @@ Team-shared configuration that any Claude instance should know:
 ```
 
 ### Maintaining These Files
-- **Update `@./CLAUDE.local.md`**: During work sessions, like a running conversation
-- **Update project `@./CLAUDE.md`**: When establishing patterns others should follow
-- **Never commit `@./CLAUDE.local.md`**: Add to .gitignore - it's our private journal
-- **Always commit `@./CLAUDE.md`**: It's team documentation
+- **Update `@./AGENT.local.md`**: During work sessions, like a running conversation
+- **Update project `@./AGENT.md`**: When establishing patterns others should follow
+- **Never commit `@./AGENT.local.md`**: Add to .gitignore - it's our private journal
+- **Always commit `@./AGENT.md`**: It's team documentation
 
 ### What Goes Where - Quick Reference
-- **Personal preferences/style** → `@~/.claude/CLAUDE.md` (global)
-- **Team conventions** → `@./CLAUDE.md` (project, committed)
-- **Working notes/context** → `@./CLAUDE.local.md` (local, gitignored)
-- **"Remember when we..."** → `@./CLAUDE.local.md`
-- **"Everyone should..."** → `@./CLAUDE.md`
-- **"Just between us..."** → `@./CLAUDE.local.md`
+- **Personal preferences/style** → `@~/.agent/AGENT.md` (global)
+- **Team conventions** → `@./AGENT.md` (project, committed)
+- **Working notes/context** → `@./AGENT.local.md` (local, gitignored)
+- **"Remember when we..."** → `@./AGENT.local.md`
+- **"Everyone should..."** → `@./AGENT.md`
+- **"Just between us..."** → `@./AGENT.local.md`
 
 ## Final Principles
 
