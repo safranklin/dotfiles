@@ -10,14 +10,14 @@
 
 # Find files by name (case-insensitive)
 # Usage: f "pattern" [additional find options]
-function f() { 
-   find . -iname "*$1*" ${@:2} 
+function f() {
+   find . -iname "*$1*" "${@:2}"
 }
 
 # Recursively search file contents with grep
 # Usage: r "search_term" [additional grep options]
-function r() { 
-   grep "$1" ${@:2} -R . 
+function r() {
+   grep "$1" "${@:2}" -R .
 }
 
 # Create directory and navigate into it
