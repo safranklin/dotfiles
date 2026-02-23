@@ -13,7 +13,9 @@
 
 # Python unversioned symlinks (python, pip, python-config)
 # Homebrew Python provides unversioned symlinks pointing to python3
-export PATH=$(brew --prefix python)/libexec/bin:$PATH
+if [[ -n "$BREW_PREFIX" ]]; then
+   export PATH="$BREW_PREFIX/opt/python/libexec/bin:$PATH"
+fi
 
 # Go
 export PATH=$PATH:/usr/local/go/bin
@@ -22,7 +24,9 @@ if command -v go &>/dev/null; then
 fi
 
 # Rust (via Homebrew rustup)
-export PATH="$(brew --prefix)/opt/rustup/bin:$PATH"
+if [[ -n "$BREW_PREFIX" ]]; then
+   export PATH="$BREW_PREFIX/opt/rustup/bin:$PATH"
+fi
 
 # ─────────────────────────────────────────────
 # Package Managers & Runtime Tools

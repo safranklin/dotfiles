@@ -4,6 +4,11 @@
 #       SHELL INITIALIZATION & PLUGINS
 # ═══════════════════════════════════════════
 
+# Cache brew prefix once — avoids repeated forks throughout config
+if type brew &>/dev/null; then
+   BREW_PREFIX=$(brew --prefix)
+fi
+
 # ─────────────────────────────────────────────
 # Prompt Configuration
 # ─────────────────────────────────────────────
@@ -19,9 +24,9 @@ fi
 # ─────────────────────────────────────────────
 
 # Homebrew completions and zsh-completions
-if type brew &>/dev/null; then
-   FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
-   FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+if [[ -n "$BREW_PREFIX" ]]; then
+   FPATH=$BREW_PREFIX/share/zsh/site-functions:$FPATH
+   FPATH=$BREW_PREFIX/share/zsh-completions:$FPATH
 
    autoload -Uz compinit
    compinit
@@ -58,15 +63,15 @@ zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
 # ─────────────────────────────────────────────
 
 # Syntax highlighting for commands as you type
-if [[ -f "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
-   source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [[ -n "$BREW_PREFIX" && -f "$BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
+   source "$BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fi
 
 # Command autosuggestions based on history and completions
-if [[ -f "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+if [[ -n "$BREW_PREFIX" && -f "$BREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
    # Use both history and completion engine for suggestions
    export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-   source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+   source "$BREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
    
    # Enhanced history search with up/down arrows
    autoload -U history-search-end
