@@ -32,12 +32,14 @@ function mkcd() {
 
 # Advanced ls with octal permissions display
 # Shows file permissions in both symbolic and octal format
-function cll() { 
-   ls -AlhG "$@" | awk '{
-       k=0;
-       for(i=0;i<=8;i++) k+=((substr($1,i+2,1)~/[rwx]/)*2^(8-i));
-       if(k) printf(" %0o ",k);
-       print
+function cll() {
+   local ls_cmd="ls -Alh --color"
+   [[ "$OSTYPE" == darwin* ]] && ls_cmd="ls -AlhG"
+   eval "$ls_cmd" "$@" | awk '{
+      k=0;
+      for(i=0;i<=8;i++) k+=((substr($1,i+2,1)~/[rwx]/)*2^(8-i));
+      if(k) printf(" %0o ",k);
+      print
    }' | cut -c 1-5,21-
 }
 
@@ -81,7 +83,12 @@ function git-clean-gone() {
 # Usage: get-ip-vpn
 function get-ip-vpn() {
    echo "Getting VPN IP..."
-   local myip=$(ifconfig | rg -e '\b100\.' | awk '{print $2; exit}')
+   local myip
+   if [[ "$OSTYPE" == darwin* ]]; then
+      myip=$(ifconfig | rg -e '\b100\.' | awk '{print $2; exit}')
+   else
+      myip=$(ip -4 addr show | rg -e '\b100\.' | awk '{print $2; exit}' | cut -d/ -f1)
+   fi
    echo "$myip"
 }
 

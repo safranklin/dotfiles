@@ -27,9 +27,19 @@ fi
 # ─────────────────────────────────────────────
 
 alias clr="clear"                    # Clear terminal screen
-alias o="open ."                     # Open current directory in Finder
-alias myip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'"
 alias source.reload="source ~/.zshrc"  # Reload zsh configuration
+
+# Platform-aware aliases
+if [[ "$OSTYPE" == darwin* ]]; then
+   alias o="open ."
+   alias myip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'"
+elif [[ -f /proc/sys/fs/binfmt_misc/WSLInterop ]]; then
+   alias o="wslview ."
+   alias myip="ip -4 addr show | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | grep -v 127.0.0.1"
+else
+   alias o="xdg-open ."
+   alias myip="ip -4 addr show | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | grep -v 127.0.0.1"
+fi
 
 # ─────────────────────────────────────────────
 # Git Workflow
