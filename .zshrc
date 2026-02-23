@@ -10,8 +10,8 @@
 
 # Starship - cross-shell prompt with git integration
 if type starship &>/dev/null; then
-   eval "$(starship init zsh)"
    export STARSHIP_CONFIG=$HOME/.config/my/starship.toml
+   eval "$(starship init zsh)"
 fi
 
 # ─────────────────────────────────────────────

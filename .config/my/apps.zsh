@@ -5,9 +5,14 @@
 # ═══════════════════════════════════════════
 
 # ─────────────────────────────────────────────
-# SSH Agent Configuration (bitwarden desktop app)
+# SSH Agent Configuration
 # ─────────────────────────────────────────────
-export SSH_AUTH_SOCK=$HOME/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock
+
+# WSL: Bridge to Windows OpenSSH agent via npiperelay
+[[ -f ~/scripts/agent-bridge.sh ]] && source ~/scripts/agent-bridge.sh
+
+# macOS Bitwarden (disabled on WSL)
+# export SSH_AUTH_SOCK=$HOME/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock
 
 # ─────────────────────────────────────────────
 # Application-Specific Settings

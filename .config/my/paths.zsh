@@ -15,24 +15,39 @@
 # Homebrew Python provides unversioned symlinks pointing to python3
 export PATH=$(brew --prefix python)/libexec/bin:$PATH
 
-# ─────────────────────────────────────────────
-# Programming Language Environments
-# ─────────────────────────────────────────────
+# Go
+export PATH=$PATH:/usr/local/go/bin
+if command -v go &>/dev/null; then
+   export PATH=$PATH:$(go env GOPATH)/bin
+fi
 
-# Cargo/Rust, Go, Node.js, Python, Ruby, etc.
+# Rust (via Homebrew rustup)
+export PATH="/home/linuxbrew/.linuxbrew/opt/rustup/bin:$PATH"
 
 # ─────────────────────────────────────────────
 # Package Managers & Runtime Tools
 # ─────────────────────────────────────────────
-# Bun, UV, etc.
 
 # NVM
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-# UV
+# pnpm
+export PNPM_HOME="$HOME/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+# UV / pipx
 export PATH="$HOME/.local/bin:$PATH"
+
+# ─────────────────────────────────────────────
+# GPU / ML
+# ─────────────────────────────────────────────
+
+export CUDA_HOME=/usr/local/cuda-13
 
 # ─────────────────────────────────────────────
 # Mobile Development SDKs
@@ -44,13 +59,6 @@ export PATH="$HOME/.local/bin:$PATH"
 # export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 # ─────────────────────────────────────────────
-# AI & Machine Learning Tools
-# ─────────────────────────────────────────────
-
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:$HOME/.lmstudio/bin"
-
-# ─────────────────────────────────────────────
 # Cloud Platform SDKs
 # ─────────────────────────────────────────────
 
@@ -59,8 +67,6 @@ export PATH="$PATH:$HOME/.lmstudio/bin"
 # ─────────────────────────────────────────────
 # User-Specific Binaries
 # ─────────────────────────────────────────────
-
-# Custom user scripts and binaries
 
 # Personal scripts and executables
 # This should typically be last to allow override of system tools
