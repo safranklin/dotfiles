@@ -76,6 +76,23 @@ function git-clean-gone() {
 }
 
 # ─────────────────────────────────────────────
+# Modern CLI Tool Wrappers
+# ─────────────────────────────────────────────
+
+# Replace cat with bat (syntax highlighting)
+if [ -x "$(command -v bat)" ]; then
+   cat() {
+      if [ $# -eq 0 ]; then
+         command bat --theme='OneHalfLight'
+      elif [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
+         command bat --help
+      else
+         command bat --theme='OneHalfLight' "$@"
+      fi
+   }
+fi
+
+# ─────────────────────────────────────────────
 # Network & System Information
 # ─────────────────────────────────────────────
 

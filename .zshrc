@@ -123,6 +123,5 @@ fi
 [[ -f ~/.config/my/functions.zsh ]] && source ~/.config/my/functions.zsh	# Custom functions
 [[ -f ~/.config/my/aliases.zsh ]] && source ~/.config/my/aliases.zsh		# Command aliases
 [[ -f ~/.config/my/paths.zsh ]] && source ~/.config/my/paths.zsh		# PATH modifications
-[[ -f ~/.config/my/management.zsh ]] && source ~/.config/my/management.zsh	# Dotfile management modifications
 
 # Keep newline at end of file

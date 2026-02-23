@@ -64,23 +64,6 @@ alias go.ozmo='cd ~/Developer/Ozmo'
 # Modern CLI Tool Replacements
 # ─────────────────────────────────────────────
 
-# Replace cat with bat (syntax highlighting) - keep flexible
-if [ -x "$(command -v bat)" ]; then
-   # Function for smart bat usage
-   cat() {
-       if [ $# -eq 0 ]; then
-           # No arguments - read from stdin
-           command bat --theme='OneHalfLight'
-       elif [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
-           # Show bat help instead of cat help
-           command bat --help
-       else
-           # Pass all arguments to bat
-           command bat --theme='OneHalfLight' "$@"
-       fi
-   }
-fi
-
 # Replace top with htop (better process viewer)
 if [ -x "$(command -v htop)" ]; then
    alias top='htop'
@@ -118,3 +101,9 @@ alias docker.clean='docker system prune -f'
 alias docker.cleancontainer='docker ps -a -q | xargs -r docker rm'
 alias docker.cleanimage='docker images --filter dangling=true -q | xargs -r docker rmi'
 alias docker.logs='docker logs -f'
+
+# ─────────────────────────────────────────────
+# Dotfile Management
+# ─────────────────────────────────────────────
+
+alias dotfile-config='git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
