@@ -10,6 +10,38 @@ if type brew &>/dev/null; then
 fi
 
 # ─────────────────────────────────────────────
+# History
+# ─────────────────────────────────────────────
+
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=50000
+SAVEHIST=50000
+
+setopt SHARE_HISTORY          # share across sessions
+setopt HIST_IGNORE_DUPS       # skip consecutive dupes
+setopt HIST_IGNORE_ALL_DUPS   # remove older dupes from history
+setopt HIST_IGNORE_SPACE      # don't record commands starting with space
+setopt HIST_REDUCE_BLANKS     # trim extra whitespace
+setopt HIST_VERIFY            # expand history before executing
+setopt EXTENDED_HISTORY       # save timestamps
+setopt INC_APPEND_HISTORY     # write immediately, don't wait for exit
+setopt APPEND_HISTORY         # append, don't overwrite
+
+# ─────────────────────────────────────────────
+# Shell Options
+# ─────────────────────────────────────────────
+
+setopt AUTO_CD                # cd by typing a directory name
+setopt AUTO_PUSHD             # push directories onto the stack
+setopt PUSHD_IGNORE_DUPS      # no dupes on the dir stack
+setopt PUSHD_SILENT           # don't print the stack after pushd/popd
+setopt CORRECT                # offer correction for mistyped commands
+setopt INTERACTIVE_COMMENTS   # allow comments in interactive shell
+setopt NO_BEEP                # silence
+setopt GLOB_DOTS              # include dotfiles in glob
+setopt EXTENDED_GLOB          # (#,~,^) glob operators
+
+# ─────────────────────────────────────────────
 # Prompt Configuration
 # ─────────────────────────────────────────────
 
