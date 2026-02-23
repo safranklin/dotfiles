@@ -57,21 +57,6 @@ if [[ -d /usr/local/cuda ]]; then
 fi
 
 # ─────────────────────────────────────────────
-# Mobile Development SDKs
-# ─────────────────────────────────────────────
-
-# Android SDK and development tools
-# export ANDROID_HOME=$HOME/Library/Android/sdk
-# export PATH=$PATH:$ANDROID_HOME/tools
-# export PATH=$PATH:$ANDROID_HOME/platform-tools
-
-# ─────────────────────────────────────────────
-# Cloud Platform SDKs
-# ─────────────────────────────────────────────
-
-# Google Cloud SDK, AWS CLI, Azure CLI, etc.
-
-# ─────────────────────────────────────────────
 # User-Specific Binaries
 # ─────────────────────────────────────────────
 

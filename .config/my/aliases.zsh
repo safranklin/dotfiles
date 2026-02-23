@@ -55,12 +55,6 @@ alias go.dev='cd ~/Developer'
 alias go.ozmo='cd ~/Developer/Ozmo'
 
 # ─────────────────────────────────────────────
-# macOS System Tools
-# ─────────────────────────────────────────────
-
-# alias mac.cleardns='sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder; say cache flushed'
-
-# ─────────────────────────────────────────────
 # Modern CLI Tool Replacements
 # ─────────────────────────────────────────────
 
