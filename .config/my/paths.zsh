@@ -22,7 +22,7 @@ if command -v go &>/dev/null; then
 fi
 
 # Rust (via Homebrew rustup)
-export PATH="/home/linuxbrew/.linuxbrew/opt/rustup/bin:$PATH"
+export PATH="$(brew --prefix)/opt/rustup/bin:$PATH"
 
 # ─────────────────────────────────────────────
 # Package Managers & Runtime Tools
@@ -44,10 +44,13 @@ esac
 export PATH="$HOME/.local/bin:$PATH"
 
 # ─────────────────────────────────────────────
-# GPU / ML
+# GPU / ML (WSL only)
 # ─────────────────────────────────────────────
 
-export CUDA_HOME=/usr/local/cuda-13
+if [[ -d /usr/local/cuda ]]; then
+   export CUDA_HOME=$(readlink -f /usr/local/cuda)
+   export PATH="$CUDA_HOME/bin:$PATH"
+fi
 
 # ─────────────────────────────────────────────
 # Mobile Development SDKs

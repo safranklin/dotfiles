@@ -1,0 +1,14 @@
+# Secrets and credentials
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*
+**/secrets/
+
+# SSH private keys (public keys are fine)
+.ssh/id_*
+!.ssh/id_*.pub
+.ssh/config

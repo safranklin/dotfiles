@@ -8,11 +8,13 @@
 # SSH Agent Configuration
 # ─────────────────────────────────────────────
 
-# WSL: Bridge to Windows OpenSSH agent via npiperelay
-[[ -f ~/scripts/agent-bridge.sh ]] && source ~/scripts/agent-bridge.sh
-
-# macOS Bitwarden (disabled on WSL)
-# export SSH_AUTH_SOCK=$HOME/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock
+if [[ -f /proc/sys/fs/binfmt_misc/WSLInterop ]]; then
+   # WSL: Bridge to Windows OpenSSH agent via npiperelay
+   [[ -f ~/scripts/agent-bridge.sh ]] && source ~/scripts/agent-bridge.sh
+elif [[ "$OSTYPE" == darwin* ]]; then
+   # macOS: Bitwarden SSH agent
+   export SSH_AUTH_SOCK=$HOME/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock
+fi
 
 # ─────────────────────────────────────────────
 # Application-Specific Settings
