@@ -7,7 +7,7 @@ Bare git repo for managing config files across machines. Supports **macOS** and 
 ### Prerequisites
 
 1. Install [Homebrew](https://brew.sh)
-2. Install a [Nerd Font](https://www.nerdfonts.com/font-downloads) (e.g., BerkeleyMono Nerd Font)
+2. Install a [Nerd Font](https://www.nerdfonts.com/font-downloads) — I use BerkeleyMono, personally patched with Nerd Font icons and ligatures
 
 ### Bootstrap
 

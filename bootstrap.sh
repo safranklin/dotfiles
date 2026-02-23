@@ -160,8 +160,7 @@ print_post_install() {
    echo "══════════════════════════════════════"
    echo ""
    echo "Remaining manual steps:"
-   echo "  1. Install a Nerd Font (e.g., BerkeleyMono Nerd Font)"
-   echo "     https://www.nerdfonts.com/font-downloads"
+   echo "  1. Install a Nerd Font (https://www.nerdfonts.com/font-downloads)"
    echo "  2. Restart your terminal or run: exec zsh"
    echo ""
 }
