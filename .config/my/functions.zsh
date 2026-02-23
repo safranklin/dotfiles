@@ -22,8 +22,8 @@ function r() {
 
 # Create directory and navigate into it
 # Usage: mkcd "directory_name"
-function mkcd() { 
-   mkdir -p "$@" && cd "$_" 
+function mkcd() {
+   mkdir -p "$@" && cd "$_"
 }
 
 # ─────────────────────────────────────────────
@@ -51,28 +51,28 @@ function cll() {
 # Fetches latest remote info and deletes local branches tracking deleted remotes
 # Usage: git-clean-gone
 function git-clean-gone() {
-    echo "Fetching remote branches..."
-    git fetch -p
-    
-    local branches_with_gone_remote=$(
-        git for-each-ref --format '%(refname) %(upstream:track)' refs/heads |
-        awk '$2 == "[gone]" {sub("refs/heads/", "", $1); print $1}'
-    )
-    
-    if [[ -z "$branches_with_gone_remote" ]]; then
-        echo "No branches with deleted remotes found."
-        return 0
-    fi
-    
-    echo "Found branches with deleted remotes:"
-    echo "$branches_with_gone_remote" | sed 's/^/  - /'
-    
-    for branch in ${(f)branches_with_gone_remote}; do
-        echo "Deleting branch: $branch"
-        git branch -D "$branch"
-    done
-    
-    echo "Cleanup complete."
+   echo "Fetching remote branches..."
+   git fetch -p
+
+   local branches_with_gone_remote=$(
+      git for-each-ref --format '%(refname) %(upstream:track)' refs/heads |
+      awk '$2 == "[gone]" {sub("refs/heads/", "", $1); print $1}'
+   )
+
+   if [[ -z "$branches_with_gone_remote" ]]; then
+      echo "No branches with deleted remotes found."
+      return 0
+   fi
+
+   echo "Found branches with deleted remotes:"
+   echo "$branches_with_gone_remote" | sed 's/^/  - /'
+
+   for branch in ${(f)branches_with_gone_remote}; do
+      echo "Deleting branch: $branch"
+      git branch -D "$branch"
+   done
+
+   echo "Cleanup complete."
 }
 
 # ─────────────────────────────────────────────
@@ -96,21 +96,21 @@ function get-ip-vpn() {
 # Tries DNS then CloudFlare as a fallback
 # Usage: get-ip-public
 function get-ip-public() {
-    echo "Getting public IP..."
-    
-    # Method 1: DNS (fastest, most reliable)
-    local dns_ip=$(dig +short +timeout=3 myip.opendns.com @resolver1.opendns.com 2>/dev/null)
-    if [[ $dns_ip =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
-        echo "$dns_ip"
-        return
-    fi
-    
-    # Method 2: CloudFlare trace
-    local cf_ip=$(curl -s --max-time 3 https://1.1.1.1/cdn-cgi/trace 2>/dev/null | grep 'ip=' | cut -d'=' -f2)
-    if [[ $cf_ip =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
-        echo "$cf_ip"
-        return
-    fi
-    
-    echo "Failed to retrieve public IP"
+   echo "Getting public IP..."
+
+   # Method 1: DNS (fastest, most reliable)
+   local dns_ip=$(dig +short +timeout=3 myip.opendns.com @resolver1.opendns.com 2>/dev/null)
+   if [[ $dns_ip =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+      echo "$dns_ip"
+      return
+   fi
+
+   # Method 2: CloudFlare trace
+   local cf_ip=$(curl -s --max-time 3 https://1.1.1.1/cdn-cgi/trace 2>/dev/null | grep 'ip=' | cut -d'=' -f2)
+   if [[ $cf_ip =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+      echo "$cf_ip"
+      return
+   fi
+
+   echo "Failed to retrieve public IP"
 }
