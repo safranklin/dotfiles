@@ -1,8 +1,9 @@
-font-family = BerkeleyMono Nerd Font Mono
+font-family = "BerkeleyMono Nerd Font Mono"
 font-size = 14
 background-opacity = 0.9
 background-blur = true
 # custom-shader = ./retro-terminal.glsl
 keybind = global:ctrl+grave_accent=toggle_quick_terminal
 adjust-cell-height = 10
+quick-terminal-autohide = false
 

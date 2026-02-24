@@ -30,10 +30,10 @@ alias clr="clear"                    # Clear terminal screen
 alias source.reload="source ~/.zshrc"  # Reload zsh configuration
 
 # Platform-aware aliases
-if [[ "$OSTYPE" == darwin* ]]; then
+if [[ $PLATFORM == macos ]]; then
    alias o="open ."
    alias myip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'"
-elif [[ -f /proc/sys/fs/binfmt_misc/WSLInterop ]]; then
+elif [[ $PLATFORM == wsl ]]; then
    alias o="wslview ."
    alias myip="ip -4 addr show | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | grep -v 127.0.0.1"
 else

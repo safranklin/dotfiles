@@ -60,6 +60,11 @@ fi
 # User-Specific Binaries
 # ─────────────────────────────────────────────
 
+# LM Studio CLI (macOS)
+if [[ $PLATFORM == macos && -d "$HOME/.lmstudio/bin" ]]; then
+   export PATH="$PATH:$HOME/.lmstudio/bin"
+fi
+
 # Personal scripts and executables
 # This should typically be last to allow override of system tools
 export PATH=$HOME/bin:$PATH

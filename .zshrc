@@ -9,6 +9,15 @@ if type brew &>/dev/null; then
    BREW_PREFIX=$(brew --prefix)
 fi
 
+# Detect platform once — used by all config files
+if [[ "$OSTYPE" == darwin* ]]; then
+   PLATFORM=macos
+elif [[ -f /proc/sys/fs/binfmt_misc/WSLInterop ]]; then
+   PLATFORM=wsl
+else
+   PLATFORM=linux
+fi
+
 # ─────────────────────────────────────────────
 # History
 # ─────────────────────────────────────────────
@@ -59,10 +68,15 @@ fi
 if [[ -n "$BREW_PREFIX" ]]; then
    FPATH=$BREW_PREFIX/share/zsh/site-functions:$FPATH
    FPATH=$BREW_PREFIX/share/zsh-completions:$FPATH
-
-   autoload -Uz compinit
-   compinit
 fi
+
+# Docker CLI completions (macOS Docker Desktop)
+if [[ $PLATFORM == macos && -d "$HOME/.docker/completions" ]]; then
+   fpath=($HOME/.docker/completions $fpath)
+fi
+
+autoload -Uz compinit
+compinit
 
 # ─────────────────────────────────────────────
 # Enhanced Tab Completion
@@ -114,17 +128,19 @@ if [[ -n "$BREW_PREFIX" && -f "$BREW_PREFIX/share/zsh-autosuggestions/zsh-autosu
 fi
 
 # ─────────────────────────────────────────────
-# SSH Agent (Bitwarden via Windows npiperelay)
+# SSH Agent (WSL only — Bitwarden via Windows npiperelay)
 # ─────────────────────────────────────────────
 
-export SSH_AUTH_SOCK=$HOME/.ssh/agent.sock
-if ! ss -a 2>/dev/null | grep -q "$SSH_AUTH_SOCK"; then
-   local win_home
-   win_home=$(wslpath "$(cmd.exe /C 'echo %USERPROFILE%' 2>/dev/null | tr -d '\r')")
-   rm -f "$SSH_AUTH_SOCK"
-   setsid socat UNIX-LISTEN:"$SSH_AUTH_SOCK",fork \
-      EXEC:"${win_home}/AppData/Local/Microsoft/WinGet/Packages/albertony.npiperelay_Microsoft.Winget.Source_8wekyb3d8bbwe/npiperelay.exe -ei -s //./pipe/openssh-ssh-agent",nofork \
-      &>/dev/null
+if [[ $PLATFORM == wsl ]]; then
+   export SSH_AUTH_SOCK=$HOME/.ssh/agent.sock
+   if ! ss -a 2>/dev/null | grep -q "$SSH_AUTH_SOCK"; then
+      local win_home
+      win_home=$(wslpath "$(cmd.exe /C 'echo %USERPROFILE%' 2>/dev/null | tr -d '\r')")
+      rm -f "$SSH_AUTH_SOCK"
+      setsid socat UNIX-LISTEN:"$SSH_AUTH_SOCK",fork \
+         EXEC:"${win_home}/AppData/Local/Microsoft/WinGet/Packages/albertony.npiperelay_Microsoft.Winget.Source_8wekyb3d8bbwe/npiperelay.exe -ei -s //./pipe/openssh-ssh-agent",nofork \
+         &>/dev/null
+   fi
 fi
 
 # ─────────────────────────────────────────────
@@ -137,5 +153,8 @@ fi
 [[ -f ~/.config/my/functions.zsh ]] && source ~/.config/my/functions.zsh	# Custom functions
 [[ -f ~/.config/my/aliases.zsh ]] && source ~/.config/my/aliases.zsh		# Command aliases
 [[ -f ~/.config/my/paths.zsh ]] && source ~/.config/my/paths.zsh		# PATH modifications
+
+# Local overrides (gitignored — machine-specific config like work aliases)
+for f in ~/.config/my/*.local.zsh(N); do source "$f"; done
 
 # Keep newline at end of file

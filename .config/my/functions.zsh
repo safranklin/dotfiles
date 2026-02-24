@@ -34,7 +34,7 @@ function mkcd() {
 # Shows file permissions in both symbolic and octal format
 function cll() {
    local ls_cmd="ls -Alh --color"
-   [[ "$OSTYPE" == darwin* ]] && ls_cmd="ls -AlhG"
+   [[ $PLATFORM == macos ]] && ls_cmd="ls -AlhG"
    eval "$ls_cmd" "$@" | awk '{
       k=0;
       for(i=0;i<=8;i++) k+=((substr($1,i+2,1)~/[rwx]/)*2^(8-i));
@@ -101,7 +101,7 @@ fi
 function get-ip-vpn() {
    echo "Getting VPN IP..."
    local myip
-   if [[ "$OSTYPE" == darwin* ]]; then
+   if [[ $PLATFORM == macos ]]; then
       myip=$(ifconfig | rg -e '\b100\.' | awk '{print $2; exit}')
    else
       myip=$(ip -4 addr show | rg -e '\b100\.' | awk '{print $2; exit}' | cut -d/ -f1)
