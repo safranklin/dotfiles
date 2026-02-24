@@ -114,6 +114,20 @@ if [[ -n "$BREW_PREFIX" && -f "$BREW_PREFIX/share/zsh-autosuggestions/zsh-autosu
 fi
 
 # ─────────────────────────────────────────────
+# SSH Agent (Bitwarden via Windows npiperelay)
+# ─────────────────────────────────────────────
+
+export SSH_AUTH_SOCK=$HOME/.ssh/agent.sock
+if ! ss -a 2>/dev/null | grep -q "$SSH_AUTH_SOCK"; then
+   local win_home
+   win_home=$(wslpath "$(cmd.exe /C 'echo %USERPROFILE%' 2>/dev/null | tr -d '\r')")
+   rm -f "$SSH_AUTH_SOCK"
+   setsid socat UNIX-LISTEN:"$SSH_AUTH_SOCK",fork \
+      EXEC:"${win_home}/AppData/Local/Microsoft/WinGet/Packages/albertony.npiperelay_Microsoft.Winget.Source_8wekyb3d8bbwe/npiperelay.exe -ei -s //./pipe/openssh-ssh-agent",nofork \
+      &>/dev/null
+fi
+
+# ─────────────────────────────────────────────
 # Custom Configuration Files
 # ─────────────────────────────────────────────
 

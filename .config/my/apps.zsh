@@ -8,10 +8,8 @@
 # SSH Agent Configuration
 # ─────────────────────────────────────────────
 
-if [[ -f /proc/sys/fs/binfmt_misc/WSLInterop ]]; then
-   # WSL: Bridge to Windows OpenSSH agent via npiperelay
-   [[ -f ~/scripts/agent-bridge.sh ]] && source ~/scripts/agent-bridge.sh
-elif [[ "$OSTYPE" == darwin* ]]; then
+# WSL agent is set up in .zshrc (needs to be available before plugins load)
+if [[ "$OSTYPE" == darwin* ]]; then
    # macOS: Bitwarden SSH agent
    export SSH_AUTH_SOCK=$HOME/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock
 fi
