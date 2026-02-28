@@ -132,7 +132,7 @@ fi
 # ─────────────────────────────────────────────
 
 if [[ $PLATFORM == wsl ]]; then
-   export SSH_AUTH_SOCK=$HOME/.ssh/agent.sock
+   # SSH_AUTH_SOCK is set in .zshenv; start the bridge if it's not running
    if ! ss -a 2>/dev/null | grep -q "$SSH_AUTH_SOCK"; then
       _win_home=$(wslpath "$(cmd.exe /C 'echo %USERPROFILE%' 2>/dev/null | tr -d '\r')")
       rm -f "$SSH_AUTH_SOCK"

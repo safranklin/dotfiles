@@ -4,15 +4,8 @@
 #         Application specific settings
 # ═══════════════════════════════════════════
 
-# ─────────────────────────────────────────────
-# SSH Agent Configuration
-# ─────────────────────────────────────────────
-
-# WSL agent is set up in .zshrc (needs to be available before plugins load)
-if [[ $PLATFORM == macos ]]; then
-   # macOS: Bitwarden SSH agent
-   export SSH_AUTH_SOCK=$HOME/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock
-fi
+# SSH_AUTH_SOCK is set in .zshenv (needs to be available to non-interactive shells)
+# The WSL socat bridge is started in .zshrc on first interactive shell
 
 # ─────────────────────────────────────────────
 # Application-Specific Settings
