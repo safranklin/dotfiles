@@ -15,7 +15,7 @@ fi
 
 # SSH agent socket — must be set here so non-interactive shells
 # (git signing from editors, CI tools, etc.) can find the agent.
-if [[ -f /proc/sys/fs/binfmt_misc/WSLInterop ]]; then
+if [[ -n "$WSL_DISTRO_NAME" ]]; then
    export SSH_AUTH_SOCK=$HOME/.ssh/agent.sock
 elif [[ "$OSTYPE" == darwin* ]]; then
    export SSH_AUTH_SOCK=$HOME/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock

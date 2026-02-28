@@ -12,7 +12,7 @@ fi
 # Detect platform once — used by all config files
 if [[ "$OSTYPE" == darwin* ]]; then
    PLATFORM=macos
-elif [[ -f /proc/sys/fs/binfmt_misc/WSLInterop ]]; then
+elif [[ -n "$WSL_DISTRO_NAME" ]]; then
    PLATFORM=wsl
 else
    PLATFORM=linux

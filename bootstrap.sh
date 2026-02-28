@@ -21,7 +21,7 @@ GIT_EMAIL="37414077+safranklin@users.noreply.github.com"
 detect_platform() {
    if [[ "$OSTYPE" == darwin* ]]; then
       echo "macos"
-   elif [[ -f /proc/sys/fs/binfmt_misc/WSLInterop ]]; then
+   elif [[ -n "$WSL_DISTRO_NAME" ]]; then
       echo "wsl"
    else
       echo "linux"
