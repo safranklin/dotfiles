@@ -119,6 +119,17 @@ if [[ -n "$BREW_PREFIX" && -f "$BREW_PREFIX/share/zsh-autosuggestions/zsh-autosu
    export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
    source "$BREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
    
+   # Tab accepts ghost text if present, otherwise does normal completion
+   _accept_or_complete() {
+      if [[ -n "$POSTDISPLAY" ]]; then
+         zle autosuggest-accept
+      else
+         zle expand-or-complete
+      fi
+   }
+   zle -N _accept_or_complete
+   bindkey '\t' _accept_or_complete
+
    # Enhanced history search with up/down arrows
    autoload -U history-search-end
    zle -N history-beginning-search-backward-end history-search-end
