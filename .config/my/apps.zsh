@@ -11,6 +11,11 @@
 # Application-Specific Settings
 # ─────────────────────────────────────────────
 
+# Zoxide (smarter cd)
+if command -v zoxide &>/dev/null; then
+   eval "$(zoxide init zsh)"
+fi
+
 # Kiro
 [[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
 

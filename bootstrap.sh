@@ -55,6 +55,7 @@ install_packages() {
       procs
       htop
       git-delta
+      zoxide
       zsh-completions
       zsh-syntax-highlighting
       zsh-autosuggestions
