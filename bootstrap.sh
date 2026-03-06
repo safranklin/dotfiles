@@ -95,6 +95,21 @@ set_default_shell() {
 }
 
 # ─────────────────────────────────────────────
+# zsh-defer (deferred plugin loading)
+# ─────────────────────────────────────────────
+
+install_zsh_defer() {
+   local dest="$HOME/.config/my/zsh-defer"
+   if [[ -d "$dest" ]]; then
+      echo "zsh-defer already installed, skipping."
+      return
+   fi
+
+   echo "Installing zsh-defer..."
+   git clone --depth 1 https://github.com/romkatv/zsh-defer.git "$dest"
+}
+
+# ─────────────────────────────────────────────
 # Dotfiles Checkout
 # ─────────────────────────────────────────────
 
@@ -172,6 +187,7 @@ print_post_install() {
 
 install_packages
 set_default_shell
+install_zsh_defer
 checkout_dotfiles
 setup_signing
 print_post_install
