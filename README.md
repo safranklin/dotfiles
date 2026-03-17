@@ -6,11 +6,11 @@ Personal dotfiles managed with [GNU Stow](https://www.gnu.org/software/stow/). E
 
 ```
 ~/dotfiles/
-├── zsh/        .zshenv, .zshrc, .config/my/*.zsh, starship.toml
+├── zsh/        .zshenv, .zshrc, .config/zsh/*.zsh, starship.toml
 ├── git/        .gitconfig, .gitignore_global
-├── ghostty/    .config/ghostty/config, .config/my/ghostty/ shaders
+├── ghostty/    .config/ghostty/config, theme.conf, shaders/
 ├── tmux/       .tmux.conf, .config/tmux/uptime.sh
-└── claude/     .claude/CLAUDE.md, .agent/AGENT.md
+└── claude/     .claude/CLAUDE.md, .claude/rules/*.md, .agent/AGENT.md
 ```
 
 ## Bootstrap
@@ -44,6 +44,13 @@ dotfile-config commit -m "..."
 # After adding a new file to a package, re-stow it
 cd ~/dotfiles && stow zsh
 ```
+
+## Claude Code
+
+The `claude/` package manages user-level [Claude Code](https://code.claude.com/docs/en/features-overview) config:
+
+- **`CLAUDE.md`** — personal instruction file loaded at the start of every session. Communication style only; topic rules live separately.
+- **`rules/`** — modular rules files. `python.md` is path-scoped to `*.py` files so it only loads when working on Python. Machine-specific rules (work workflows, etc.) live in `~/.claude/rules/` locally and are not tracked here.
 
 ## Platforms
 

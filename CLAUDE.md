@@ -37,7 +37,7 @@ cd ~/dotfiles && stow */          # stow all packages
 | `git/` | `.gitconfig`, `.gitignore_global` |
 | `ghostty/` | `.config/ghostty/config`, `theme.conf`, `shaders/` |
 | `tmux/` | `.tmux.conf`, `.config/tmux/uptime.sh` |
-| `claude/` | `.claude/CLAUDE.md`, `.claude/settings.json`, `.agent/AGENT.md` |
+| `claude/` | `.claude/CLAUDE.md`, `.claude/rules/*.md`, `.claude/settings.json`, `.agent/AGENT.md` |
 
 Each package directory mirrors `$HOME`. Running `stow <package>` from `~/dotfiles` creates symlinks in `$HOME` pointing back into the repo.
 
@@ -77,6 +77,21 @@ export NODE_AUTH_TOKEN="..."
 ### Bootstrap
 
 `bootstrap.sh` is idempotent. It installs Homebrew packages (including `stow`), sets up zsh-defer, clones the repo, runs `stow */`, and configures SSH commit signing from GitHub public keys.
+
+### Claude Code Config (`claude/.claude/`)
+
+`CLAUDE.md` is the personal user-level instruction file — loaded at the start of every Claude Code session. It contains only communication style preferences; topic-specific rules live in `rules/`.
+
+`rules/` contains modular instruction files loaded alongside `CLAUDE.md`:
+
+| File | Scope | Contents |
+|------|-------|----------|
+| `git.md` | All sessions | Commit hygiene, conventional commits, PR workflow |
+| `work-tracking.md` | All sessions | Issue tracking, plan mode |
+| `code-quality.md` | All sessions | Function design, error handling, principles, security |
+| `python.md` | `*.py` files only | uv toolchain, src/ layout, type hints, modern Python |
+
+Rules in `~/.claude/rules/` that are not tracked in this repo (machine-local) can extend these for machine-specific workflows. See [Claude Code docs — Store instructions and memories](https://code.claude.com/docs/en/features-overview).
 
 ## ⚠️ Caution for AI Agents
 
