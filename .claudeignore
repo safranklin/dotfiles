@@ -1,0 +1,8 @@
+# Never read secrets or credentials
+**/*.local.zsh
+**/.aws/
+**/.ssh/id_*
+**/.env
+**/.env.*
+**/credentials*
+**/.npmrc

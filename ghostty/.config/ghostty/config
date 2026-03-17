@@ -1,0 +1,2 @@
+config-file = ~/.config/ghostty/theme.conf
+keybind = shift+enter=text:\n

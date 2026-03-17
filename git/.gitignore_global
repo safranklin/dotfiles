@@ -1,0 +1,33 @@
+# Secrets and credentials
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*
+**/secrets/
+
+# SSH private keys (public keys are fine)
+.ssh/id_*
+!.ssh/id_*.pub
+.ssh/config
+
+# AWS credentials and config — never commit these
+.aws/
+
+# Cloud provider credentials and configs
+.gcloud/
+.kube/
+
+# Infrastructure as code secrets
+*.tfvars
+
+# Private key formats
+*.p8
+
+# npm auth tokens
+.npmrc
+
+# Machine-specific shell overrides (work aliases, local paths, etc.)
+.config/zsh/*.local.zsh

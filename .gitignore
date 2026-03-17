@@ -1,0 +1,9 @@
+.DS_Store
+zsh/.config/zsh/zsh-defer/
+*.local.zsh
+*.local.md
+*.swp
+*.swo
+
+# Claude settings may contain MCP configs, tokens, or machine-specific state
+claude/.claude/settings.json
