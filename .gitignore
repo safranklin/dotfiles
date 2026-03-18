@@ -1,5 +1,6 @@
 .DS_Store
 zsh/.config/zsh/zsh-defer/
+zsh/.config/zsh/fzf-tab/
 *.local.zsh
 *.local.md
 *.swp
