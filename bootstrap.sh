@@ -60,6 +60,7 @@ install_packages() {
       zsh-completions
       zsh-syntax-highlighting
       zsh-autosuggestions
+      fzf
    )
 
    if [[ "$PLATFORM" == "wsl" ]]; then
@@ -108,6 +109,21 @@ install_zsh_defer() {
 
    echo "Installing zsh-defer..."
    git clone --depth 1 https://github.com/romkatv/zsh-defer.git "$dest"
+}
+
+# ─────────────────────────────────────────────
+# fzf-tab (icon-rich completion menu via fzf)
+# ─────────────────────────────────────────────
+
+install_fzf_tab() {
+   local dest="$HOME/.config/zsh/fzf-tab"
+   if [[ -d "$dest" ]]; then
+      echo "fzf-tab already installed, skipping."
+      return
+   fi
+
+   echo "Installing fzf-tab..."
+   git clone --depth 1 https://github.com/Aloxaf/fzf-tab.git "$dest"
 }
 
 # ─────────────────────────────────────────────
@@ -175,6 +191,7 @@ print_post_install() {
 install_packages
 set_default_shell
 install_zsh_defer
+install_fzf_tab
 checkout_dotfiles
 setup_signing
 print_post_install

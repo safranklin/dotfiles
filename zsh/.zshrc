@@ -90,15 +90,33 @@ fi
 defer autoload -Uz compinit
 defer compinit
 
+# fzf-tab must be sourced after compinit but before other completion wrappers
+if [[ -f "$HOME/.config/zsh/fzf-tab/fzf-tab.plugin.zsh" ]]; then
+   defer source "$HOME/.config/zsh/fzf-tab/fzf-tab.plugin.zsh"
+fi
+
+# fzf shell integration (Ctrl+R history, Ctrl+T file picker, Alt+C cd)
+if [[ -n "$BREW_PREFIX" && -f "$BREW_PREFIX/opt/fzf/shell/key-bindings.zsh" ]]; then
+   defer source "$BREW_PREFIX/opt/fzf/shell/key-bindings.zsh"
+fi
+
 # ─────────────────────────────────────────────
 # Enhanced Tab Completion
 # ─────────────────────────────────────────────
 
+defer setopt MENU_COMPLETE        # first Tab inserts first match; subsequent Tabs cycle
 defer zstyle ':completion:*' matcher-list \
    'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 defer zstyle ':completion:*' list-colors '${(s.:.)LS_COLORS}'
-defer zstyle ':completion:*' menu select
+defer zstyle ':completion:*' menu no   # fzf-tab replaces the menu; 'select' fights it
 defer bindkey '^[[Z' reverse-menu-complete
+
+# fzf-tab: eza preview with icons for file/directory completions
+defer zstyle ':fzf-tab:complete:*' fzf-preview \
+   'if [[ -d $realpath ]]; then eza --color=always --icons --level=1 $realpath; elif [[ -f $realpath ]]; then bat --color=always --line-range=:50 $realpath 2>/dev/null || cat $realpath; fi'
+defer zstyle ':fzf-tab:complete:cd:*' fzf-preview \
+   'eza --color=always --icons --tree --level=1 $realpath'
+defer zstyle ':fzf-tab:*' switch-group '<' '>'   # switch between groups with < >
 defer zstyle ':completion:*' use-cache on
 defer zstyle ':completion:*' cache-path '"$HOME/.zcompcache"'
 defer zstyle ':completion:*:*:*:*:descriptions' format '%F{green}-- %d --%f'
@@ -120,17 +138,7 @@ if [[ -n "$BREW_PREFIX" && -f "$BREW_PREFIX/share/zsh-autosuggestions/zsh-autosu
    export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
    defer source "$BREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
-   defer -c '
-      _accept_or_complete() {
-         if [[ -n "$POSTDISPLAY" ]]; then
-            zle autosuggest-accept
-         else
-            zle expand-or-complete
-         fi
-      }
-      zle -N _accept_or_complete
-      bindkey "\t" _accept_or_complete
-   '
+   # Tab completion is managed by fzf-tab; accept autosuggestion with Right arrow
 
    defer autoload -U history-search-end
    defer -c '
