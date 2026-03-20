@@ -17,3 +17,4 @@ See `~/.claude/rules/` for topic-specific guidance:
 - `work-tracking.md` — issue tracking, plan mode
 - `code-quality.md` — function design, error handling, principles, security
 - `python.md` — uv, project layout, type hints, modern Python (path-scoped to `*.py`)
+- `ozmo.md` — Ozmo domain model, V1↔V2 naming, Device/App conflation, domain map

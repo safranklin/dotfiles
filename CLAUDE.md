@@ -90,6 +90,7 @@ export NODE_AUTH_TOKEN="..."
 | `work-tracking.md` | All sessions | Issue tracking, plan mode |
 | `code-quality.md` | All sessions | Function design, error handling, principles, security |
 | `python.md` | `*.py` files only | uv toolchain, src/ layout, type hints, modern Python |
+| `ozmo.md` | All sessions | Ozmo domain model, V1↔V2 naming, Device/App conflation, domain map |
 
 Rules in `~/.claude/rules/` that are not tracked in this repo (machine-local) can extend these for machine-specific workflows. See [Claude Code docs — Store instructions and memories](https://code.claude.com/docs/en/features-overview).
 
