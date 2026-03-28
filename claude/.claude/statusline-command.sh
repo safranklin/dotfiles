@@ -156,7 +156,7 @@ if [ -n "$rl_5h" ]; then
   c5=$(_pct_color "$rl_5h_int")
   bar5=$(bar "$rl_5h_int" 5 "$c5" "${FG_BG3}")
 
-  rl_content=" ${FG0}5h ${bar5}${BOLD} ${c5}${rl_5h_int}%${RST}${BG_BG1}"
+  rl_content="󰄪 ${FG0}5h ${bar5}${BOLD} ${c5}${rl_5h_int}%${RST}${BG_BG1}"
 
   if [ -n "$rl_7d" ]; then
     c7=$(_pct_color "$rl_7d_int")
