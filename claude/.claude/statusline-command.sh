@@ -117,7 +117,7 @@ fi
 
 # ── Pill: Model (blue) ──
 if [ -n "$model" ]; then
-  out="${out} $(pill "${BG_BLUE}" "${FG_BLUE}" "󰧑 ${model}")"
+  out="${out} $(pill "${BG_BLUE}" "${FG_BLUE}" "󰚩 ${model}")"
 fi
 
 # ── Pill: Context window (bg3) ──
@@ -145,7 +145,7 @@ if [ -n "$used_pct" ] && [ -n "$remaining_pct" ]; then
     fi
   fi
 
-  out="${out} $(pill "${BG_BG3}" "${FG_BG3}" " ${ctx_bar}${FG0}${token_label} (${used_int}%)")"
+  out="${out} $(pill "${BG_BG3}" "${FG_BG3}" "󰧑 ${ctx_bar}${FG0}${token_label} (${used_int}%)")"
 fi
 
 # ── Pill: Usage limits (bg1) ──
