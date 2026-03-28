@@ -1,6 +1,6 @@
 #!/bin/bash
 # Claude Code statusline — Gruvbox Dark pill-style segments
-# Matches tmux.conf window-status pill aesthetic
+# Requires: Nerd Font, jq
 
 input=$(cat)
 
@@ -44,24 +44,42 @@ FG_GREEN='\033[38;5;106m'
 FG_PURPLE='\033[38;5;132m'
 FG_RED='\033[38;5;124m'
 
-# Pill helpers — each segment is a self-contained rounded pill
-# pill "bg_code" "fg_code" "content"
-#   → (left-cap)  content  (right-cap)
+# ── Pill helpers ──
 pill() {
   local bg="$1" fg="$2" content="$3"
   printf '%b' "${fg}${RST}${bg}${FG0} ${content} ${RST}${fg}${RST}"
 }
 
-# Transition pill — two-tone pill with separator in the middle
-# pill2 "bg1" "fg1" "content1" "bg2" "fg2" "content2"
 pill2() {
   local bg1="$1" fg1="$2" c1="$3" bg2="$4" fg2="$5" c2="$6"
   printf '%b' "${fg1}${RST}${bg1}${FG0} ${c1} ${fg1}${bg2}${RST}${bg2}${FG0} ${c2} ${RST}${fg2}${RST}"
 }
 
+# ── Build a bar gauge: bar <used_pct> <bar_len> <used_color> <free_color> ──
+bar() {
+  local pct="$1" len="${2:-10}" uc="$3" fc="$4"
+  local filled=$(( (pct * len + 50) / 100 ))
+  [ "$filled" -gt "$len" ] && filled="$len"
+  [ "$filled" -lt 0 ] && filled=0
+  local empty=$(( len - filled ))
+  local out="${uc}"
+  local i=0; while [ "$i" -lt "$filled" ]; do out="${out}â"; i=$((i+1)); done
+  out="${out}${fc}"
+  i=0; while [ "$i" -lt "$empty" ]; do out="${out}â"; i=$((i+1)); done
+  printf '%b' "$out"
+}
+
+# Color for a percentage (low=green, mid=yellow, high=orange, crit=red)
+_pct_color() {
+  if [ "$1" -lt 25 ]; then printf '%b' "${FG_GREEN}"
+  elif [ "$1" -lt 50 ]; then printf '%b' "${FG_YELLOW}"
+  elif [ "$1" -lt 75 ]; then printf '%b' "${FG_ORANGE}"
+  else printf '%b' "${FG_RED}"; fi
+}
+
 out=""
 
-# ── Pill: Directory (yellow) ──
+# ── Pill: Directory + Git (yellow | aqua) ──
 if [ -n "$cwd" ]; then
   dir_name=$(basename "$cwd")
   parent=$(dirname "$cwd")
@@ -75,12 +93,10 @@ else
   dir_display="~"
 fi
 
-# ── Pill: Git (aqua) ──
 git_info=""
 if [ -n "$cwd" ] && git -C "$cwd" rev-parse --git-dir > /dev/null 2>&1; then
   branch=$(git -C "$cwd" branch --show-current 2>/dev/null)
   [ -z "$branch" ] && branch=$(git -C "$cwd" rev-parse --short HEAD 2>/dev/null)
-
   git_stat=""
   porcelain=$(git -C "$cwd" status --porcelain 2>/dev/null)
   if [ -n "$porcelain" ]; then
@@ -94,16 +110,15 @@ if [ -n "$cwd" ] && git -C "$cwd" rev-parse --git-dir > /dev/null 2>&1; then
   git_info="${branch}${git_stat}"
 fi
 
-# Dir + Git as a two-tone pill, or just dir if no git
 if [ -n "$git_info" ]; then
-  out="${out}$(pill2 "${BG_YELLOW}" "${FG_YELLOW}" "${dir_display}" "${BG_AQUA}" "${FG_AQUA}" "${git_info}")"
+  out="${out}$(pill2 "${BG_YELLOW}" "${FG_YELLOW}" " ${dir_display}" "${BG_AQUA}" "${FG_AQUA}" " ${git_info}")"
 else
-  out="${out}$(pill "${BG_YELLOW}" "${FG_YELLOW}" "${dir_display}")"
+  out="${out}$(pill "${BG_YELLOW}" "${FG_YELLOW}" " ${dir_display}")"
 fi
 
 # ── Pill: Model (blue) ──
 if [ -n "$model" ]; then
-  out="${out} $(pill "${BG_BLUE}" "${FG_BLUE}" "${model}")"
+  out="${out} $(pill "${BG_BLUE}" "${FG_BLUE}" "󰧑 ${model}")"
 fi
 
 # ── Pill: Context window (bg3) ──
@@ -111,25 +126,12 @@ if [ -n "$used_pct" ] && [ -n "$remaining_pct" ]; then
   used_int=$(printf "%.0f" "$used_pct" 2>/dev/null)
   free_int=$(printf "%.0f" "$remaining_pct" 2>/dev/null)
 
-  if [ "$free_int" -gt 60 ]; then
-    free_color="${FG_AQUA}"
-  elif [ "$free_int" -gt 40 ]; then
-    free_color="${FG_YELLOW}"
-  elif [ "$free_int" -gt 20 ]; then
-    free_color="${FG_ORANGE}"
-  else
-    free_color="${FG_RED}"
-  fi
+  if [ "$free_int" -gt 60 ]; then free_color="${FG_AQUA}"
+  elif [ "$free_int" -gt 40 ]; then free_color="${FG_YELLOW}"
+  elif [ "$free_int" -gt 20 ]; then free_color="${FG_ORANGE}"
+  else free_color="${FG_RED}"; fi
 
-  used_blocks=$(( (used_int + 5) / 10 ))
-  [ "$used_blocks" -gt 10 ] && used_blocks=10
-  [ "$used_blocks" -lt 0 ] && used_blocks=0
-  free_blocks=$(( 10 - used_blocks ))
-
-  gauge="${FG_PURPLE}"
-  i=0; while [ "$i" -lt "$used_blocks" ]; do gauge="${gauge}⛁"; i=$((i+1)); done
-  gauge="${gauge}${free_color}"
-  i=0; while [ "$i" -lt "$free_blocks" ]; do gauge="${gauge}⛶"; i=$((i+1)); done
+  ctx_bar=$(bar "$used_int" 10 "${FG_PURPLE}" "$free_color")
 
   token_label=""
   if [ -n "$ctx_size" ] && [ "$ctx_size" -gt 0 ]; then
@@ -144,8 +146,7 @@ if [ -n "$used_pct" ] && [ -n "$remaining_pct" ]; then
     fi
   fi
 
-  ctx_content="${gauge}${FG0}${token_label} (${used_int}%)"
-  out="${out} $(pill "${BG_BG3}" "${FG_BG3}" "${ctx_content}")"
+  out="${out} $(pill "${BG_BG3}" "${FG_BG3}" " ${ctx_bar}${FG0}${token_label} (${used_int}%)")"
 fi
 
 # ── Pill: Usage limits (bg1) ──
@@ -153,21 +154,15 @@ if [ -n "$rl_5h" ]; then
   rl_5h_int=$(printf "%.0f" "$rl_5h" 2>/dev/null)
   rl_7d_int=$(printf "%.0f" "$rl_7d" 2>/dev/null)
 
-  _rl_color() {
-    if [ "$1" -lt 25 ]; then printf '%b' "${FG_GREEN}"
-    elif [ "$1" -lt 50 ]; then printf '%b' "${FG_YELLOW}"
-    elif [ "$1" -lt 75 ]; then printf '%b' "${FG_ORANGE}"
-    else printf '%b' "${FG_RED}"; fi
-  }
+  c5=$(_pct_color "$rl_5h_int")
+  bar5=$(bar "$rl_5h_int" 5 "$c5" "${FG_BG3}")
 
-  c5=$(_rl_color "$rl_5h_int")
-  rl_5h_pad=$(printf '%3s' "${rl_5h_int}")
-  rl_content="${FG0}Usage: ${c5}${BOLD}5h:${rl_5h_pad}%${RST}${BG_BG1}"
+  rl_content=" ${FG0}5h ${bar5}${BOLD} ${c5}${rl_5h_int}%${RST}${BG_BG1}"
 
   if [ -n "$rl_7d" ]; then
-    c7=$(_rl_color "$rl_7d_int")
-    rl_7d_pad=$(printf '%3s' "${rl_7d_int}")
-    rl_content="${rl_content}  ${c7}${BOLD}7d:${rl_7d_pad}%${RST}${BG_BG1}"
+    c7=$(_pct_color "$rl_7d_int")
+    bar7=$(bar "$rl_7d_int" 5 "$c7" "${FG_BG3}")
+    rl_content="${rl_content}  ${FG0}7d ${bar7}${BOLD} ${c7}${rl_7d_int}%${RST}${BG_BG1}"
   fi
 
   reset_label=""
@@ -178,9 +173,9 @@ if [ -n "$rl_5h" ]; then
       hrs=$(( remaining / 3600 ))
       mins=$(( (remaining % 3600) / 60 ))
       if [ "$hrs" -gt 0 ]; then
-        reset_label="  ${FG0}session resets in: ${hrs}h${mins}m"
+        reset_label="  ${FG0}resets: ${hrs}h${mins}m"
       else
-        reset_label="  ${FG0}session resets in: ${mins}m"
+        reset_label="  ${FG0}resets: ${mins}m"
       fi
     fi
   fi
