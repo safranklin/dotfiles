@@ -37,7 +37,7 @@ cd ~/dotfiles && stow */          # stow all packages
 | `git/` | `.gitconfig`, `.gitignore_global` |
 | `ghostty/` | `.config/ghostty/config`, `theme.conf`, `shaders/` |
 | `tmux/` | `.tmux.conf`, `.config/tmux/uptime.sh` |
-| `claude/` | `.claude/CLAUDE.md`, `.claude/rules/*.md`, `.claude/settings.json`, `.agent/AGENT.md` |
+| `claude/` | `.claude/CLAUDE.md`, `.claude/rules/*.md`, `.claude/statusline-command.sh`, `.claude/hooks/` |
 
 Each package directory mirrors `$HOME`. Running `stow <package>` from `~/dotfiles` creates symlinks in `$HOME` pointing back into the repo.
 

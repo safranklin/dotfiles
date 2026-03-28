@@ -15,7 +15,10 @@ claude/.claude/rules/jira.md
 claude/.claude/rules/work-tracking.md
 
 # Sandbox blueprint: assembled at runtime by sbx-claude
-claude/.claude/sandbox-blueprint/files/
-claude/.claude/sandbox-blueprint/manifest.json
-claude/.claude/sandbox-blueprint/commands.json
-claude/.claude/sandbox-blueprint/settings.json
+claude/.claude/sandbox-blueprint/
+
+# Skills: work-specific or machine-local, not universal config
+claude/.claude/skills/
+
+# Local bin: machine-specific scripts
+claude/.local/
