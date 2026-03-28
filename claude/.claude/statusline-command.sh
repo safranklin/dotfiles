@@ -62,11 +62,10 @@ bar() {
   [ "$filled" -gt "$len" ] && filled="$len"
   [ "$filled" -lt 0 ] && filled=0
   local empty=$(( len - filled ))
-  local out="${uc}"
-  local i=0; while [ "$i" -lt "$filled" ]; do out="${out}â"; i=$((i+1)); done
-  out="${out}${fc}"
-  i=0; while [ "$i" -lt "$empty" ]; do out="${out}â"; i=$((i+1)); done
-  printf '%b' "$out"
+  # Pre-built block strings (0-10 chars each)
+  local F=("" "█" "██" "███" "████" "█████" "██████" "███████" "████████" "█████████" "██████████")
+  local E=("" "░" "░░" "░░░" "░░░░" "░░░░░" "░░░░░░" "░░░░░░░" "░░░░░░░░" "░░░░░░░░░" "░░░░░░░░░░")
+  printf '%b' "${uc}${F[$filled]}${fc}${E[$empty]}"
 }
 
 # Color for a percentage (low=green, mid=yellow, high=orange, crit=red)
