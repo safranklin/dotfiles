@@ -8,3 +8,14 @@ zsh/.config/zsh/fzf-tab/
 
 # Claude settings may contain MCP configs, tokens, or machine-specific state
 claude/.claude/settings.json
+
+# Work-specific rules — not universal dotfile config
+claude/.claude/rules/ozmo.md
+claude/.claude/rules/jira.md
+claude/.claude/rules/work-tracking.md
+
+# Sandbox blueprint: assembled at runtime by sbx-claude
+claude/.claude/sandbox-blueprint/files/
+claude/.claude/sandbox-blueprint/manifest.json
+claude/.claude/sandbox-blueprint/commands.json
+claude/.claude/sandbox-blueprint/settings.json

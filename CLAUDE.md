@@ -87,12 +87,11 @@ export NODE_AUTH_TOKEN="..."
 | File | Scope | Contents |
 |------|-------|----------|
 | `git.md` | All sessions | Commit hygiene, conventional commits, PR workflow |
-| `work-tracking.md` | All sessions | Issue tracking, plan mode |
 | `code-quality.md` | All sessions | Function design, error handling, principles, security |
 | `python.md` | `*.py` files only | uv toolchain, src/ layout, type hints, modern Python |
-| `ozmo.md` | All sessions | Ozmo domain model, V1↔V2 naming, Device/App conflation, domain map |
+| `testing.md` | All sessions | Testing principles, what to test, practical guidelines |
 
-Rules in `~/.claude/rules/` that are not tracked in this repo (machine-local) can extend these for machine-specific workflows. See [Claude Code docs — Store instructions and memories](https://code.claude.com/docs/en/features-overview).
+Work-specific rules (`ozmo.md`, `jira.md`, `work-tracking.md`) live in `~/.claude/rules/` but are gitignored — they're machine-local, not universal config. Additional machine-local rules can extend these for specific workflows. See [Claude Code docs — Store instructions and memories](https://code.claude.com/docs/en/features-overview).
 
 ## ⚠️ Caution for AI Agents
 
