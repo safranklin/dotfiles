@@ -43,7 +43,7 @@ For each pattern identified:
 | Tool permission prompts for safe, frequent commands | Permission allow rule | settings.json |
 | Reusable technique applicable across projects | Skill | ~/.claude/skills/ |
 | Project-specific convention or constraint | Project instruction | project CLAUDE.md or .claude/rules/ |
-| Recurring context about the user or their preferences | Feedback or user memory | memory/ |
+| Recurring context about the user or their preferences | Feedback or user memory | Auto memory (use the built-in memory system — don't specify paths or format) |
 | "I should just be better about this" | **Stop.** This is not a fix. Walk the table again. | — |
 
 ## Anti-Patterns
@@ -52,6 +52,10 @@ For each pattern identified:
 - **Self-blame as solution.** "I'll remember next time" — you won't. You're stateless across sessions.
 - **Over-engineering.** Not every correction needs a hook. One-off mistakes are fine. The threshold is *recurrence*.
 - **Mixing levels.** A hook that auto-formats is better than a CLAUDE.md rule that says "remember to format." Prefer automation over instruction when possible.
+
+## Memory Saves
+
+When the fix type is "Feedback or user memory," **do not** specify file paths, frontmatter, or format. Just describe what should be remembered and use the built-in auto memory system to save it. The memory system has its own format, index, and storage rules — defer to those entirely.
 
 ## Output Format
 
@@ -62,7 +66,7 @@ For each proposed change:
 **Observed:** [what happened, how many times]
 **Root cause:** [why it recurs]
 **Fix type:** [from decision table]
-**Target:** [exact file path]
+**Target:** [exact file path, or "auto memory" for memory saves]
 **Change:**
-[the actual diff, config block, or text to add]
+[the actual diff, config block, or code — for memory saves, just the content to remember]
 ```
