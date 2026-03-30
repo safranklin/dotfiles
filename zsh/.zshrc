@@ -118,7 +118,7 @@ defer zstyle ':fzf-tab:complete:cd:*' fzf-preview \
    'eza --color=always --icons --tree --level=1 $realpath'
 defer zstyle ':fzf-tab:*' switch-group '<' '>'   # switch between groups with < >
 defer zstyle ':completion:*' use-cache on
-defer zstyle ':completion:*' cache-path '"$HOME/.zcompcache"'
+defer zstyle ':completion:*' cache-path "$HOME/.zcompcache"
 defer zstyle ':completion:*:*:*:*:descriptions' format '%F{green}-- %d --%f'
 defer zstyle ':completion:*:*:*:*:corrections' format '%F{yellow}!- %d (errors: %e) -!%f'
 defer zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'
