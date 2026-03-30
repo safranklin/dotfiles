@@ -61,6 +61,8 @@ install_packages() {
       zsh-syntax-highlighting
       zsh-autosuggestions
       fzf
+      age
+      fnox
    )
 
    if [[ "$PLATFORM" == "wsl" ]]; then
